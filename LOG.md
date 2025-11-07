@@ -1,0 +1,2 @@
+11/06 Day0:Desktop(windows),macbookairの環境構築。ホームディレクトリ直下にDevelopment/projects/atcoder-workspaceを作成。windowsではWSL2(Ubuntu24.04)を使用。mise,uvをインストール。online-judge-toolsをインストールしたものの、提出のみ機能せず。AtCoder側の問題の形式のうち、メモリ制限に関するもののみ変更があったらしく、自分でアップデートに挑戦してみたいが時間がなく寝る。体調も優れない。
+Day1:
