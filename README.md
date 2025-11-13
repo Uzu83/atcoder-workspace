@@ -14,10 +14,38 @@ AtCoderコンテストの解答リポジトリです。競技プログラミン�
 ojコマンドまとめ
 
 問題のサンプルのダウンロード
-oj download (http://contest.atcoder.jp/tasks/sample)
-
+oj download https://atcoder.jp/contests/typical90/tasks/typical90_
 サンプルでのテスト
 oj t -c "python3 main.py"
 
 ~~提出~~(使用不可)
 oj s main.py
+
+
+コミットメッセージテンプレート
+
+feat(typical90): Solve {新規問題番号} and review {復習した問題番号}
+
+## 🔄 Review ({復習した問題番号})
+- Re-implemented from scratch to reinforce the pattern.
+- Confirmed correct logic for {使ったアルゴリズム: 例 cumulative sum}.
+
+## ✨ New Challenge ({新規問題番号}: {問題名})
+- Solved and AC'd.
+- Refactored code based on the model answer (e.g., used {学んだテクニック: 例 math.gcd, sys.stdin.readline}).
+
+R1 D{日付} #100daysToCode
+
+途中まで
+
+feat(typical90): Review {復習した問題番号} and add WIP for {新規問題番号}
+
+## 🔄 Review ({復習した問題番号})
+- Re-implemented from scratch.
+
+## 🚧 Work In Progress ({新規問題番号}: {問題名})
+- Implemented {できたところ: input handling, basic logic}.
+- Currently facing {詰まっている点: TLE, logic error} in {具体的な箇所}.
+- Will finish implementation tomorrow.
+
+R1 D{日付} #100daysToCode
