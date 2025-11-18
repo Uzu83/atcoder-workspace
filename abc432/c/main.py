@@ -1,43 +1,47 @@
 import sys
 input = sys.stdin.readline
 
-N, X, Y = map(int, input().split())
-A = list(map(int,input().rstrip().split()))
+# N, X, Yを受けとる
+N, X, Y = map(int,input().split())
 
-diff_Y_X = Y - X
+# A数列を受けとる
+A_list = list(map(int,input().rstrip().split()))
 
-# ステップ２: 余りチェック
-remainder = (A[0] * X) % diff_Y_X
-for a in A:
-    if (a * X) % diff_Y_X != remainder:
+# 数式 総重量をW,Xを配る数をx_numとする W = (A_list[i] - x_num) * Y + x_num * X
+
+# 余りを確認(Y-Xごとの目盛りで,それにない重量は作れない)
+diff = Y - X
+remainder = (A_list[0] * X) % diff
+
+for a in A_list[1:]:
+    if (a * X) % diff != remainder:
         print(-1)
         exit()
 
-# ステップ３: 共通範囲を探す
-min_weights = []
-max_weights = []
-for a in A:
-    min_weights.append(a * X)
-    max_weights.append(a * Y)
 
-min_possible_weight = max(min_weights)
-max_possible_weight = min(max_weights)
+# 最小の重量と最大の重量をチェック
+min_weight = max(A_list) * X
+max_weight = min(A_list) * Y
 
-if min_possible_weight > max_possible_weight:
+if min_weight >= max_weight:
     print(-1)
     exit()
 
-# ステップ4: 最大の共通重さを見つける
-best_weight = max_possible_weight - (max_possible_weight - remainder) % diff_Y_X
 
-# ステップ5: 最終チェック
-if best_weight < min_possible_weight:
+# max_weight から「ズレ」を引く
+best_weight = max_weight - (max_weight - remainder) % diff
+
+if best_weight < min_weight:
     print(-1)
     exit()
 
 # 答えの計算
 total_large_candies = 0
-for a in A:
-    total_large_candies += (best_weight - a * X) // diff_Y_X
+
+for a in A_list:
+    # (目標の重さ - 全部小さい時の重さ) ÷ (1個交換で増える重さ)
+    # = その子が持つべき「大きな飴」の数
+    count = (best_weight - a * X) // diff
+    total_large_candies += count
 
 print(total_large_candies)
