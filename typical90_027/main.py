@@ -1,11 +1,11 @@
 import sys
+input = sys.stdin.readline
 
 N = int(input().rstrip())
-usernames = set()
 
+usernames = set()
 for i in range(N):
-    name = input().rstrip()
-    if name not in usernames:
-        usernames.add(name)
-        print(i + 1)
-        
+    username = input().rstrip()
+    if username not in usernames:
+        usernames.add(username)
+        print(i+1)
