@@ -1,27 +1,27 @@
-import sys
+def solve():
+    import sys
+    input = sys.stdin.readline
 
-input = sys.stdin.readline
+    N, P, Q = map(int,input().split())
 
-N, P, Q = map(int, input().split())
-A = [int(x) % P for x in input().split()]
+    nums = [int(x) % P for x in input().rstrip().split()]
 
-ans = 0
+    counts = 0
 
-# 5重ループ
-for i in range(N):
-    m1 = A[i]
+    for i in range(N):
+        a1 = nums[i]
+        for j in range(i+1,N):
+            a2 = a1 * nums[j] % P
+            for k in range(j+1,N):
+                a3 = a2 * nums[k] % P
+                for l in range(k+1,N):
+                    a4 = a3 * nums[l] % P
+                    for m in range(l+1,N):
+                        a5 = a4*nums[m] % P
+                        if a5 == Q:
+                            counts += 1
 
-    for j in range(i+1, N):
-        m2 = (m1 * A[j]) % P
+    print(counts)
 
-        for k in range(j+1, N):
-            m3 = (m2 * A[k]) % P
-
-            for l in range(k+1, N):
-                m4 = (m3 * A[l]) % P
-
-                for m in range(l+1, N):
-                    if (m4 * A[m]) % P == Q:
-                        ans += 1
-
-print(ans)
+if __name__ == "__main__":
+    solve()

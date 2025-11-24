@@ -1,31 +1,36 @@
-import sys
-input = sys.stdin.readline
+def solve():
+    import sys
+    input = sys.stdin.readline
 
-N, X, Y = map(int,input().split())
-A_list = list(map(int,input().rstrip().split()))
+    N, X, Y = map(int,input().split())
 
-diff = Y - X
-for a in A_list:
-    if ((A_list[0] * X) % diff) - ((a * X) % diff) != 0:
+    weight_counts = list(map(int,input().rstrip().split()))
+
+    for i in range(N):
+        base = weight_counts[0] * X
+        if (weight_counts[i] * X - base) % (Y - X) != 0:
+            print(-1)
+            return()
+
+    max_weight = min(weight_counts) * Y
+    min_weight = max(weight_counts) * X
+
+    if max_weight < min_weight:
         print(-1)
-        exit()
+        return()
+    
+    best_weight = max_weight - ((max_weight % (Y - X)) - (base % (Y - X)))%(Y-X)
 
-min_weights = max(A_list) * X
-max_weights = min(A_list) * Y
+    if best_weight < min_weight:
+        print(-1)
+        return()
+    
+    counts = 0
+    for i in range(N):
+        count = (best_weight - weight_counts[i] * X) // (Y - X)
+        counts += count
 
-if min_weights > max_weights:
-    print(-1)
-    exit()
+    print(counts)
 
-best_weights = max_weights // diff * diff + ((A_list[0] * X) % diff)
-
-if best_weights < min_weights:
-    print(-1)
-    exit()
-
-ans = 0
-
-for a in A_list:
-    ans += (best_weights - a * X) // diff
-
-print(ans)
+if __name__ == "__main__":
+    solve()
