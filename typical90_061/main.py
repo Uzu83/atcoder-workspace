@@ -1,15 +1,14 @@
 import sys
 from collections import deque
 
-
 def solve():
     input = sys.stdin.readline
-
+    
     Q = int(input().rstrip())
-    deck = deque()
 
+    deck = deque()
     for _ in range(Q):
-        t, x = map(int,input().split())
+        t, x = map(int, input().split())
         if t == 1:
             deck.appendleft(x)
 
@@ -17,8 +16,7 @@ def solve():
             deck.append(x)
 
         else:
-            print(deck[x - 1]) 
-
+            print(deck[x - 1])
 
 
 if __name__ == "__main__":
