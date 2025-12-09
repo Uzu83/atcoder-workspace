@@ -1,34 +1,41 @@
 import sys
-from collections import deque
 
-def long_base_9(n):
-    """int型の10進数の数をint型の9進数にして返す"""
+
+def long_to_9(n):
     if n == 0:
-        return(0)
-    
-    num_str = deque()
+        return "0"
+
+    n_list = []
+
     while n > 0:
-        num_str.appendleft(str(n % 9))
+        n_list.append(str(n % 9))
         n //= 9
-        
-    
-    return int("".join(num_str))
+
+    return "".join(reversed(n_list))
+
 
 def solve():
+    input = sys.stdin.readline
+
     N_str, K = input().split()
     K = int(K)
+
     if N_str == "0":
         print(0)
         return
-    
+
     for _ in range(K):
-        N_10 = int(N_str, 8)
-        
-        N_base_9 = long_base_9(N_10)
-        
-        N_str = str(N_base_9).replace("8", "5")
-    
+        # 8based -> 10based
+        N_int = int(N_str, 8)
+
+        # 10based -> 9based
+        N_int_9 = long_to_9(N_int)
+
+        # "8" -> "5"
+        N_str = N_int_9.replace("8", "5")
+
     print(N_str)
+
 
 if __name__ == "__main__":
     solve()

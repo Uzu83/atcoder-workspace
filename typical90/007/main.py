@@ -5,34 +5,34 @@ import bisect
 def solve():
     input = sys.stdin.readline
     N = int(input().rstrip())
-    rate_list = list(map(int,input().rstrip().split()))
-    
-    rate_list_sorted = sorted(rate_list)
-    
+    rate_list = list(map(int, input().split()))
     Q = int(input().rstrip())
-    
+
+    # Pythonでの無限大の表現
+    INF = 10**18
+
+    rate_list_sorted = sorted(rate_list)
+
     for _ in range(Q):
-        B = int(input().rstrip())
-        
-        
-        # bisect_left: B を挿入するならどこ? (index) を返す
-        # つまり, rate_list_sorted[idx] >= B となる最初の場所
-        idx = bisect.bisect_left(rate_list_sorted, B)
-        
-        # 答えの候補は以下の２つ
-        # 1. idx番目の要素 (B以上の最小値)
-        # 2. idx-1番目の要素 (Bより小さい最大値)
-        
-        diff1 = float('inf')
-        diff2 = float('inf')
-        
+        rate = int(input().rstrip())
+
+        # 挿入すべき位置を探す
+        idx = bisect.bisect_left(rate_list_sorted, rate)
+
+        diff = INF
+
+        # 候補1: 自分より大きい (または等しい) 値との差
+        # idx が N (リストの末尾) の時は存在しないのでスキップ
         if idx < N:
-            diff1 = abs(B - rate_list_sorted[idx])
-        
+            diff = min(diff, abs(rate_list_sorted[idx] - rate))
+
+        # 候補2: 自分より小さい値との差
+        # idx が 0 (リストの先頭) の時は存在しないのでスキップ
         if idx > 0:
-            diff2 = abs(B - rate_list_sorted[idx - 1])
-        
-        print(min(diff1, diff2))
+            diff = min(diff, abs(rate_list_sorted[idx - 1] - rate))
+
+        print(diff)
+
 
 if __name__ == "__main__":
     solve()

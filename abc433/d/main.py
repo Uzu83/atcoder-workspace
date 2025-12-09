@@ -1,59 +1,47 @@
 import sys
-from collections import defaultdict
+
 
 def solve():
     input = sys.stdin.readline
-    
     N, M = map(int, input().split())
-    A = list(map(int, input().rstrip().split()))
-    
-    # Step 1: 前準備
-    # 「もし自分が "上" にきたら、、余りはどうなる？」を全通り計算してメモする
-    #
-    # cnt[k][r] :=
-    # 「後ろに k 桁の数字がついたとき、全体を M で割った余りが r になるような、
-    #  前側(Ai)の数字の個数」
-    
-    
-    # 桁数(1~10)ごとに辞書を作る
-    cnt = [defaultdict(int) for _ in range(11)]
-    
-    for a in A:
-        # 後ろに来る数字の桁数 k (1桁~10桁) を想定してループ
-        for k in range(1, 11):
-            # a を 10^k 倍して M で割った余りを計算
-            # pow(10, k, M) は (10**k) % M を高速にやる書き方
-            rem = (a * pow(10, k, M)) % M
-            
-            # 「k桁ずらして余りが rem になるやつ、ここに１個いたよ！」 と記録
-            cnt[k][rem] += 1
-    
-    
-    # ---------------------------------------------------------
-    # Step 2: 本番 (Main Loop)
-    # 自分が "下（Suffix）" になったとき、相方が何人いるか数える
-    # ---------------------------------------------------------
+    A = list(map(int, input().split()))
+
+    # 1. 前処理: 桁数ごとに余りをカウントする
+    # cnt[d][r] := 桁数が d で, M で割った余りが r である数の個数
+    # A_i <= 10^9 なので、桁数は最大10桁
+    # 便宜上、cnt[1]...cnt[10]を使う。
+    # 辞書(dict)を使うと、余りが疎な場合(Mが大きい場合)にもメモリを食わない
+    cnt = [{} for _ in range(11)]
+
+    for x in A:
+        d = len(str(x))
+        rem = x % M
+
+        if rem not in cnt[d]:
+            cnt[d][rem] = 0
+        cnt[d][rem] += 1
+
     ans = 0
 
-    for a in A:
-        # 自分の桁数を調べる (これが Step 1 の k になる)
-        # str(a) は遅いので len(str(a)) だけ使う
-        L = len(str(a))
-        
-        # 自分の余り
-        my_rem = a % M
-        
-        # 相方(上に来る数字)に求める余り
-        # (相方 + 自分) % M == 0 にしたいので、
-        # 相方の余りは (M - 自分) % M になればいい
-        target_rem = (M - my_rem) % M
-        
-        # 「L桁ズラしたときの余りが target_rem になるやつ」は何人いる？
-        count = cnt[L][target_rem]
-        
-        ans += count
+    # 2. 全探索 (ただし内側は桁数の10回だけ)
+    for x in A:
+        # 相手(A_j)の桁数を k (1~10) と仮定して全探索
+        for k in range(1, 11):
+            if not cnt[k]:
+                continue
+
+            # 式: (x * 10^k + A_j) % M == 0
+            # 変形: A_j % M == (M - (x * 10^k % M)) % M
+
+            term1 = (x * pow(10, k, M)) % M
+            target_rem = (M - term1) % M
+
+            # その桁数(k) で、余りが target_rem になる相手は何人いるか?
+            if target_rem in cnt[k]:
+                ans += cnt[k][target_rem]
 
     print(ans)
+
 
 if __name__ == "__main__":
     solve()

@@ -1,47 +1,45 @@
 import sys
 
+
 def solve():
     input = sys.stdin.readline
     S = input().rstrip()
-    
-    
-    # Step 1: 連長圧縮
-    # "1112222" -> [(1, 3), (2, 4)] の形にする
-    
-    rle = []
-    if not S:
+    N = len(S)
+
+    if N == 0:
         print(0)
         return
-    
-    current_char = S[0]
-    count = 0
-    
-    for char in S:
-        if char == current_char:
+
+    # 1. ランレングス圧縮 (RLE)
+    # rle = [(数字, 個数), (数字, 個数), ...]
+    rle = []
+
+    current_num = int(S[0])
+    count = 1
+
+    for i in range(1, N):
+        next_num = int(S[i])
+        if next_num == current_num:
             count += 1
         else:
-            # (数字, 個数)を記録
-            rle.append((int(current_char), count))
-            current_char = char
+            rle.append((current_num, count))
+            current_num = next_num
             count = 1
-    
-    # 最後のカタマリを追加
-    rle.append((int(current_char), count))
-    
-    
-    # Step 2: 隣り合うカタマリをチェック
+    # 最後のブロックを追加
+    rle.append((current_num, count))
+
+    # 2. 隣り合うブロックをチェック
     ans = 0
-    
-    # リストの「i番目」と「i+1番目」を比較する
+    # ブロックのペアを見ていく
     for i in range(len(rle) - 1):
-        num1, count1 = rle[i]
-        num2, count2 = rle[i+1]
-        
-        # 条件: 右の数字が、左の数字 + 1 であること
-        if num2 == num1 + 1:
-            # 作れるペアの数は、少ない方の個数で決まる
-            ans += min(count1, count2)
-    
+        val1, len1 = rle[i]
+        val2, len2 = rle[i + 1]
+
+        # 条件: 前の数字 + 1 が 後ろの数字
+        if val1 + 1 == val2:
+            # 作れるペアの数は、少ない方の長さに依存する
+            ans += min(len1, len2)
+
     print(ans)
 
 

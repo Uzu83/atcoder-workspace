@@ -1,22 +1,26 @@
 import sys
-from collections import deque
+
 
 def solve():
     input = sys.stdin.readline
-    
-    Q = int(input().rstrip())
 
-    deck = deque()
+    Q = int(input().rstrip())
+    deck_upper = []
+    deck_lower = []
+
     for _ in range(Q):
         t, x = map(int, input().split())
+
         if t == 1:
-            deck.appendleft(x)
-
+            deck_upper.append(x)
         elif t == 2:
-            deck.append(x)
-
+            deck_lower.append(x)
         else:
-            print(deck[x - 1])
+            if x <= len(deck_upper):
+                print(deck_upper[-x])
+            else:
+                idx = x - len(deck_upper) - 1
+                print(deck_lower[idx])
 
 
 if __name__ == "__main__":

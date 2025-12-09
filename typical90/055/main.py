@@ -1,27 +1,30 @@
+import sys
+
+
 def solve():
-    import sys
     input = sys.stdin.readline
 
-    N, P, Q = map(int,input().split())
+    N, P, Q = map(int, input().split())
+    A_list = [int(x) % P for x in input().rstrip().split()]
 
-    nums = [int(x) % P for x in input().rstrip().split()]
+    count = 0
 
-    counts = 0
-
+    # 5重ループ
     for i in range(N):
-        a1 = nums[i]
-        for j in range(i+1,N):
-            a2 = a1 * nums[j] % P
-            for k in range(j+1,N):
-                a3 = a2 * nums[k] % P
-                for l in range(k+1,N):
-                    a4 = a3 * nums[l] % P
-                    for m in range(l+1,N):
-                        a5 = a4*nums[m] % P
+        a1 = A_list[i]
+        for j in range(i + 1, N):
+            a2 = (A_list[j] * a1) % P
+            for k in range(j + 1, N):
+                a3 = (A_list[k] * a2) % P
+                for l in range(k + 1, N):
+                    a4 = (A_list[l] * a3) % P
+                    for m in range(l + 1, N):
+                        a5 = (A_list[m] * a4) % P
                         if a5 == Q:
-                            counts += 1
+                            count += 1
 
-    print(counts)
+    print(count)
+
 
 if __name__ == "__main__":
     solve()
