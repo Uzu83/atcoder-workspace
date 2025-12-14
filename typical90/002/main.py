@@ -9,18 +9,19 @@ def solve():
     if N % 2 != 0:
         return
 
-    candidates_list = []
+    candidates = []
+    # 辞書順に()の文字列を作っていく
     for i in range(1 << N):
         candidate = ""
         for j in range(N - 1, -1, -1):
-            if (i >> j) & 1 == 0:
+            if ((i >> j) & 1) == 0:
                 candidate += "("
             else:
                 candidate += ")"
+        candidates.append(candidate)
 
-        candidates_list.append(candidate)
-
-    for candidate in candidates_list:
+    # チェックして出力していく
+    for candidate in candidates:
         count = 0
         for char in candidate:
             if char == "(":

@@ -2,31 +2,29 @@ import sys
 
 
 def solve():
-    input = sys.stdin.readline
-
     S = input().rstrip()
 
-    nums_list = []
+    # 圧縮
+    S_RL = []
     base = None
-    counter = 0
-
+    count = 0
     for char in S:
         if base == None:
             base = char
 
-        if char == base:
-            counter += 1
+        if base == char:
+            count += 1
         else:
-            nums_list.append((int(base), counter))
+            S_RL.append((int(base), count))
             base = char
-            counter = 1
+            count = 1
     else:
-        nums_list.append((int(base), counter))
+        S_RL.append((int(base), count))
 
     ans = 0
-    for i in range(len(nums_list) - 1):
-        if nums_list[i][0] + 1 == nums_list[i + 1][0]:
-            ans += min(nums_list[i][1], nums_list[i + 1][1])
+    for i in range(len(S_RL) - 1):
+        if S_RL[i][0] + 1 == S_RL[i + 1][0]:
+            ans += min(S_RL[i][1], S_RL[i + 1][1])
 
     print(ans)
 
