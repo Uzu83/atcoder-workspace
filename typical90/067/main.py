@@ -1,40 +1,39 @@
 import sys
 
 
-def long_to_9(n):
-    if n == 0:
+def long_to_base_9(num):
+    if num == 0:
         return "0"
 
-    n_list = []
+    num_list = []
 
-    while n > 0:
-        n_list.append(str(n % 9))
-        n //= 9
+    while num > 0:
+        num_list.append(str(num % 9))
+        num //= 9
 
-    return "".join(reversed(n_list))
+    return "".join(reversed(num_list))
 
 
 def solve():
     input = sys.stdin.readline
 
-    N_str, K = input().split()
+    N, K = input().split()
     K = int(K)
 
-    if N_str == "0":
+    if N == "0":
         print(0)
         return
 
-    for _ in range(K):
-        # 8based -> 10based
-        N_int = int(N_str, 8)
+    for i in range(K):
+        N_int = int(N, 8)
 
-        # 10based -> 9based
-        N_int_9 = long_to_9(N_int)
+        # N を 10進法 → 9進法(str)にする
+        N_str_9 = long_to_base_9(N_int)
 
-        # "8" -> "5"
-        N_str = N_int_9.replace("8", "5")
+        # N の "8" を "5" に置き換え, N に再代入
+        N = N_str_9.replace("8", "5")
 
-    print(N_str)
+    print(N)
 
 
 if __name__ == "__main__":

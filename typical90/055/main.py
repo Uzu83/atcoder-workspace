@@ -5,22 +5,20 @@ def solve():
     input = sys.stdin.readline
 
     N, P, Q = map(int, input().split())
-    A_list = [int(x) % P for x in input().rstrip().split()]
+    A_list = [int(x) % P for x in list(map(int, input().split()))]
 
     count = 0
-
-    # 5重ループ
     for i in range(N):
-        a1 = A_list[i]
+        x1 = A_list[i]
         for j in range(i + 1, N):
-            a2 = (A_list[j] * a1) % P
+            x2 = (x1 * A_list[j]) % P
             for k in range(j + 1, N):
-                a3 = (A_list[k] * a2) % P
+                x3 = (x2 * A_list[k]) % P
                 for l in range(k + 1, N):
-                    a4 = (A_list[l] * a3) % P
+                    x4 = (x3 * A_list[l]) % P
                     for m in range(l + 1, N):
-                        a5 = (A_list[m] * a4) % P
-                        if a5 == Q:
+                        x5 = (x4 * A_list[m]) % P
+                        if x5 == Q:
                             count += 1
 
     print(count)

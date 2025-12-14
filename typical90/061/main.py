@@ -3,8 +3,8 @@ import sys
 
 def solve():
     input = sys.stdin.readline
-
     Q = int(input().rstrip())
+
     deck_upper = []
     deck_lower = []
 
@@ -16,11 +16,12 @@ def solve():
         elif t == 2:
             deck_lower.append(x)
         else:
-            if x <= len(deck_upper):
-                print(deck_upper[-x])
+            if x > len(deck_upper):
+                print(deck_lower[x - len(deck_upper) - 1])
             else:
-                idx = x - len(deck_upper) - 1
-                print(deck_lower[idx])
+                print(deck_upper[-x])
+
+    return
 
 
 if __name__ == "__main__":

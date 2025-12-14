@@ -1,46 +1,40 @@
 import sys
 
+
 def solve():
     input = sys.stdin.readline
-    
-    N, X, Y = map(int,input().split())
-    weight_list = list(map(int,input().rstrip().split()))
-    
-    
-    # 余りチェック
-    base = weight_list[0] * X
+
+    N, X, Y = map(int, input().split())
+    A_list = list(map(int, input().split()))
+
     diff = Y - X
-    for i in range(1,N):
-        if (weight_list[i] * X - base) % diff != 0:
+    major = A_list[0] * X
+
+    for i in range(N):
+        if ((A_list[i] * X) - major) % diff != 0:
             print(-1)
             return
-    
-    
-    # 最大値・最小値チェック
-    max_weights = min(weight_list) * Y
-    min_weights = max(weight_list) * X
-    
-    if max_weights < min_weights:
+
+    max_weight = min(A_list) * Y
+    min_weight = max(A_list) * X
+
+    if max_weight < min_weight:
         print(-1)
         return
-    
-    
-    # 最適重量計算
-    best_weights = max_weights - ((max_weights - base) % diff)
-    
-    
-    # 範囲内かチェック
-    if best_weights < min_weights:
+
+    best_weight = max_weight - ((max_weight - major) % diff)
+
+    if best_weight < min_weight:
         print(-1)
         return
-    
-    
-    # 錘の個数計算
-    Y_count = 0
+
+    ans = 0
     for i in range(N):
-        Y_count += (best_weights - (weight_list[i] * X)) // diff
-    
-    print(Y_count)
+        X_count = (best_weight - (A_list[i] * X)) // diff
+        ans += X_count
+
+    print(ans)
+
 
 if __name__ == "__main__":
     solve()

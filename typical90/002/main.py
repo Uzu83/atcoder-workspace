@@ -3,34 +3,35 @@ import sys
 
 def solve():
     input = sys.stdin.readline
+
     N = int(input().rstrip())
 
-    if N % 2 == 1:
+    if N % 2 != 0:
         return
 
+    candidates_list = []
     for i in range(1 << N):
         candidate = ""
-
         for j in range(N - 1, -1, -1):
-            if not (i & (1 << j)):
+            if (i >> j) & 1 == 0:
                 candidate += "("
             else:
                 candidate += ")"
 
-        score = 0
-        is_valid = True
+        candidates_list.append(candidate)
 
+    for candidate in candidates_list:
+        count = 0
         for char in candidate:
             if char == "(":
-                score += 1
+                count += 1
             else:
-                score -= 1
+                count -= 1
 
-            if score < 0:
-                is_valid = False
+            if count < 0:
                 break
 
-        if is_valid and score == 0:
+        if count == 0:
             print(candidate)
 
 
